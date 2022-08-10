@@ -1,0 +1,13 @@
+version: '3'
+services:
+
+  client:
+    build:
+      context: ./client
+      dockerfile: .
+    restart: always
+    ports:
+      - "3000:3000"
+    deploy:
+      mode: replicated
+      replicas: 1
