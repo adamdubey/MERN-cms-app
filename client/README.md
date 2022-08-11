@@ -27,8 +27,10 @@ docker run -d -p 3000:3000 cms-client:latest
 ## Technologies & Frameworks
 
 - [Ant](https://ant.design)
-- [Docker]()
-- [React.js]()
+- [Cypress.io](https://docs.cypress.io/)
+- [Docker](https://www.docker.com/)
+- [ESLint](https://eslint.org/)
+- [Github Workflows](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions)
 - [Next.js](https://nextjs.org)
-- [Node.js](https://nodejs.org)
-- [Vercel]()
+- [Prettier](https://prettier.io/)
+- [React.js](https://reactjs.org/)

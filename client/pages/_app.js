@@ -1,12 +1,14 @@
 import { ThemeProvider } from '../context/theme';
-import 'antd/dist/antd.css';
+import TopNav from '../components/TopNav';
+import '../public/css/styles.css';
 
 function MyApp({ Component, pageProps }) {
-    return (
-        <ThemeProvider>
-            <Component { ...pageProps } />
-        </ThemeProvider>
-    );
+  return (
+    <ThemeProvider>
+      <TopNav />
+      <Component {...pageProps} />
+    </ThemeProvider>
+  );
 }
 
 export default MyApp;
