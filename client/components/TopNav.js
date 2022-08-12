@@ -2,7 +2,9 @@ import { Menu } from 'antd';
 import {
   MailOutlined,
   AppstoreOutlined,
-  SettingOutlined
+  SettingOutlined,
+  UserAddOutlined,
+  UserOutlined
 } from '@ant-design/icons';
 import { useState } from 'react';
 import ToggleTheme from './ToggleTheme';
@@ -23,12 +25,12 @@ const TopNav = () => {
           <a>MERN-CMS</a>
         </Link>
       </Menu.Item>
-      <Menu.Item key="signup" icon={<AppstoreOutlined />}>
+      <Menu.Item key="signup" icon={<UserAddOutlined />}>
         <Link href="/signup">
           <a>Sign Up</a>
         </Link>
       </Menu.Item>
-      <Menu.Item key="signin" icon={<MailOutlined />}>
+      <Menu.Item key="signin" icon={<UserOutlined />}>
         <Link href="signin">
           <a>Sign In</a>
         </Link>
