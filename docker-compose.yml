@@ -11,3 +11,14 @@ services:
     deploy:
       mode: replicated
       replicas: 1
+  
+  server:
+    build:
+      context: ./server
+      dockerfile: .
+    restart: always
+    ports:
+      - "8000:8000"
+    deploy:
+      mode: replicated
+      replicas: 1
