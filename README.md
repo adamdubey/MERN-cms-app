@@ -4,10 +4,10 @@
 
 ```sh
 # Start Application Stack
-make up
+$ make up
 
 # Stop Application Stack
-make down
+$ make down
 ```
 
 ## Technologies & Frameworks
