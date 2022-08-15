@@ -12,7 +12,7 @@ const {
 
 router.get("/", (req, res) => {
   return res.json({
-    data: "hello world from kaloraat auth API",
+    data: "Hello world from Auth-API",
   });
 });
 router.post("/signup", signup);

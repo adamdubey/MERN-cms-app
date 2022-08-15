@@ -26,8 +26,10 @@ docker run -d -p 8000:8000 cms-server:latest
 - [Cors]()
 - [Docker](https://www.docker.com/)
 - [Express.js](https://nextjs.org)
+- [Jest]
 - [JWT]()
 - [Mongo DB]()
 - [Node.js]()
 - [Nodemon]()
 - [SendGrid]()
+- [Supertest]()
