@@ -1,41 +1,32 @@
-import { Button, Col, Form, Input, Row } from 'antd';
-import { LockOutlined, UserOutlined, MailOutlined } from '@ant-design/icons';
-import Link from 'next/link';
+import { Form, Input, Button, Col, Row } from "antd";
+import { UserOutlined, LockOutlined, MailOutlined } from "@ant-design/icons";
+import Link from "next/link";
 
 function Signup() {
   const onFinish = (values) => {
-    console.log(values);
+    console.log("values => ", values);
   };
 
   return (
     <Row>
       <Col span={8} offset={8}>
-        <h1 style={{ paddingTop: '100px' }}>Signup Page</h1>
+        <h1 style={{ paddingTop: "100px" }}>Signup</h1>
         <Form
-          form={form}
-          name="horizontal_login"
-          layout="inline"
+          name="normal_login"
+          className="login-form"
+          initialValues={{ remember: true }}
           onFinish={onFinish}
         >
           <Form.Item
-            name="username"
-            rules={[{ required: true, message: 'Please input your username!' }]}
+            name="name"
+            rules={[{ required: true, message: "Please input your name!" }]}
           >
             <Input
               prefix={<UserOutlined className="site-form-item-icon" />}
-              placeholder="Username"
+              placeholder="Name"
             />
           </Form.Item>
-          <Form.Item
-            name="email"
-            rules={[
-              {
-                required: true,
-                type: 'email',
-                message: 'Please input a valid email address!'
-              }
-            ]}
-          >
+          <Form.Item name="email" rules={[{ type: "email" }]}>
             <Input
               prefix={<MailOutlined className="site-form-item-icon" />}
               placeholder="Email"
@@ -43,7 +34,7 @@ function Signup() {
           </Form.Item>
           <Form.Item
             name="password"
-            rules={[{ required: true, message: 'Please input your password!' }]}
+            rules={[{ required: true, message: "Please input your Password!" }]}
           >
             <Input.Password
               prefix={<LockOutlined className="site-form-item-icon" />}
@@ -51,24 +42,18 @@ function Signup() {
               placeholder="Password"
             />
           </Form.Item>
-          <Form.Item shouldUpdate>
-            {() => (
-              <Button
-                type="primary"
-                htmlType="submit"
-                disabled={
-                  !form.isFieldsTouched(true) ||
-                  !!form.getFieldsError().filter(({ errors }) => errors.length)
-                    .length
-                }
-              >
-                Sign Up
-              </Button>
-            )}
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="login-form-button"
+            >
+              Register
+            </Button>
             <br />
-            or{' '}
+            Or{" "}
             <Link href="/signin">
-              <a>Log In</a>
+              <a>Login now!</a>
             </Link>
           </Form.Item>
         </Form>

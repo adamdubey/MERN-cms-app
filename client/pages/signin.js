@@ -1,32 +1,23 @@
-import { Button, Col, Form, Input, Row } from 'antd';
-import { LockOutlined, UserOutlined, MailOutlined } from '@ant-design/icons';
-import Link from 'next/link';
+import { Form, Input, Button, Col, Row } from "antd";
+import { LockOutlined, MailOutlined } from "@ant-design/icons";
+import Link from "next/link";
 
 function Signin() {
   const onFinish = (values) => {
-    console.log(values);
+    console.log("values => ", values);
   };
 
   return (
     <Row>
       <Col span={8} offset={8}>
-        <h1 style={{ paddingTop: '100px' }}>Signin Page</h1>
+        <h1 style={{ paddingTop: "100px" }}>Signin</h1>
         <Form
-          form={form}
-          name="horizontal_login"
-          layout="inline"
+          name="normal_login"
+          className="login-form"
+          initialValues={{ remember: true }}
           onFinish={onFinish}
         >
-          <Form.Item
-            name="email"
-            rules={[
-              {
-                required: true,
-                type: 'email',
-                message: 'Please input a valid email address!'
-              }
-            ]}
-          >
+          <Form.Item name="email" rules={[{ type: "email" }]}>
             <Input
               prefix={<MailOutlined className="site-form-item-icon" />}
               placeholder="Email"
@@ -34,7 +25,7 @@ function Signin() {
           </Form.Item>
           <Form.Item
             name="password"
-            rules={[{ required: true, message: 'Please input your password!' }]}
+            rules={[{ required: true, message: "Please input your Password!" }]}
           >
             <Input.Password
               prefix={<LockOutlined className="site-form-item-icon" />}
@@ -42,28 +33,23 @@ function Signin() {
               placeholder="Password"
             />
           </Form.Item>
-          <Form.Item shouldUpdate>
-            {() => (
-              <Button
-                type="primary"
-                htmlType="submit"
-                disabled={
-                  !form.isFieldsTouched(true) ||
-                  !!form.getFieldsError().filter(({ errors }) => errors.length)
-                    .length
-                }
-              >
-                Login
-              </Button>
-            )}
+          <Link href="/forgot-password">
+            <a>Forgot Password</a>
+          </Link>
+          <br />
+          <br />
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="login-form-button"
+            >
+              Login
+            </Button>
             <br />
-            <Link href="/forgot-password">
-              <a>Forgot Password?</a>
-            </Link>
-            <br />
-            or{' '}
+            Or{" "}
             <Link href="/signup">
-              <a>Sign Up</a>
+              <a>Register now!</a>
             </Link>
           </Form.Item>
         </Form>

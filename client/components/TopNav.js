@@ -1,7 +1,6 @@
 import { Menu } from 'antd';
 import {
   MailOutlined,
-  AppstoreOutlined,
   SettingOutlined,
   UserAddOutlined,
   UserOutlined
