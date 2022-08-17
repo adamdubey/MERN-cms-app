@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useState, useEffect } from 'react';
 import { Menu, Layout } from 'antd';
 import Link from 'next/link';
@@ -20,7 +19,7 @@ const AdminNav = () => {
   // state
   const [collapsed, setCollapsed] = useState(false);
   const [current, setCurrent] = useState('');
-  
+
   // hooks
   const onlyWidth = useWindowWidth();
 

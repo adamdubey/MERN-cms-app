@@ -2,7 +2,7 @@ import { useState, useContext } from 'react';
 import { Form, Input, Button, Col, Row } from 'antd';
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
 import { AuthContext } from '../context/auth';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import axios from 'axios';
 import toast from 'react-hot-toast';
@@ -20,19 +20,18 @@ function Signin() {
   const onFinish = async (values) => {
     try {
       setLoading(true);
-      const { data } = await axios.post("/signin", values);
+      const { data } = await axios.post('/signin', values);
       // save context
       setAuth(data);
 
       // save localStorage
-      localStorage.setItem("auth", JSON.stringify(data));
-      toast.success("Successfully signed in!")
+      localStorage.setItem('auth', JSON.stringify(data));
+      toast.success('Successfully signed in!');
 
       // redirect user
-      router.push("/");
-
-    } catch(err) {
-      console.log("error!", err);
+      router.push('/');
+    } catch (err) {
+      console.log('error!', err);
       setLoading(false);
       toast.error('Signin Failed - Something went wrong!');
     }

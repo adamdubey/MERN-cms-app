@@ -5,7 +5,7 @@ import Link from 'next/link';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../context/auth';
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 
 function Signup() {
   // context
@@ -20,24 +20,21 @@ function Signup() {
   const onFinish = async (values) => {
     setLoading(true);
     try {
-      const { data } = await axios.post(
-        `/signup`,
-        values
-      );
+      const { data } = await axios.post(`/signup`, values);
       if (data?.error) {
         toast.error(data.error);
         setLoading(false);
       } else {
         // save context
         setAuth(data);
-        
+
         // save localStorage
-        localStorage.setItem("auth", JSON.stringify(data));
+        localStorage.setItem('auth', JSON.stringify(data));
         toast.success('Successfully signed up!');
         setLoading(false);
 
         // redirect user
-        router.push("/admin");
+        router.push('/admin');
       }
     } catch (err) {
       toast.error('Signup Failed! Please try again');

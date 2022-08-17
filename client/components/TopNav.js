@@ -30,13 +30,13 @@ const TopNav = () => {
 
   const signOut = () => {
     // rm token from localStorage
-    localStorage.removeItem("auth");
+    localStorage.removeItem('auth');
 
     // rm context
     setAuth({ user: null, token: '' });
 
     // redirect user
-    router.push("/signin")
+    router.push('/signin');
   };
 
   return (
@@ -46,37 +46,49 @@ const TopNav = () => {
           <a>MERN-CMS</a>
         </Link>
       </Menu.Item>
-      {auth?.user === null && (<>
-        <Menu.Item style={{ marginLeft: "auto" }} key="signup" icon={<UserAddOutlined />}>
-          <Link href="/signup">
-            <a>Sign Up</a>
-          </Link>
-        </Menu.Item>
-        <Menu.Item key="signin" icon={<UserOutlined />}>
-          <Link href="signin">
-            <a>Sign In</a>
-          </Link>
-        </Menu.Item>
-      </>)}
-      {auth?.user !== null && (<>
-        <SubMenu
-          key="SubMenu"
-          icon={<SettingOutlined />}
-          title="Dashboard"
-          style={{ marginLeft: 'auto' }}
-        >
-          <Menu.ItemGroup title="Management">
-            <Menu.Item key="setting:2">
-              <Link href="/admin">
-                <a>Admin</a>
-              </Link>
-            </Menu.Item>
-          </Menu.ItemGroup>
-        </SubMenu>
-        <Menu.Item onClick={() => signOut()} key="signout" icon={<LogoutOutlined />}>
-          <a>Sign Out</a>
-        </Menu.Item>
-      </>)}
+      {auth?.user === null && (
+        <>
+          <Menu.Item
+            style={{ marginLeft: 'auto' }}
+            key="signup"
+            icon={<UserAddOutlined />}
+          >
+            <Link href="/signup">
+              <a>Sign Up</a>
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="signin" icon={<UserOutlined />}>
+            <Link href="signin">
+              <a>Sign In</a>
+            </Link>
+          </Menu.Item>
+        </>
+      )}
+      {auth?.user !== null && (
+        <>
+          <SubMenu
+            key="SubMenu"
+            icon={<SettingOutlined />}
+            title="Dashboard"
+            style={{ marginLeft: 'auto' }}
+          >
+            <Menu.ItemGroup title="Management">
+              <Menu.Item key="setting:2">
+                <Link href="/admin">
+                  <a>Admin</a>
+                </Link>
+              </Menu.Item>
+            </Menu.ItemGroup>
+          </SubMenu>
+          <Menu.Item
+            onClick={() => signOut()}
+            key="signout"
+            icon={<LogoutOutlined />}
+          >
+            <a>Sign Out</a>
+          </Menu.Item>
+        </>
+      )}
       <Menu.Item>
         <ToggleTheme />
       </Menu.Item>
