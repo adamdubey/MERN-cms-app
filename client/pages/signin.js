@@ -1,23 +1,53 @@
-import { Form, Input, Button, Col, Row } from "antd";
-import { LockOutlined, MailOutlined } from "@ant-design/icons";
-import Link from "next/link";
+import { useState, useContext } from 'react';
+import { Form, Input, Button, Col, Row } from 'antd';
+import { LockOutlined, MailOutlined } from '@ant-design/icons';
+import { AuthContext } from '../context/auth';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 function Signin() {
-  const onFinish = (values) => {
-    console.log("values => ", values);
+  // context
+  const [auth, setAuth] = useContext(AuthContext);
+
+  // state
+  const [loading, setLoading] = useState(false);
+
+  // hooks
+  const router = useRouter();
+
+  const onFinish = async (values) => {
+    try {
+      setLoading(true);
+      const { data } = await axios.post('/signin', values);
+      // save context
+      setAuth(data);
+
+      // save localStorage
+      localStorage.setItem('auth', JSON.stringify(data));
+      toast.success('Successfully signed in!');
+
+      // redirect user
+      router.push('/');
+    } catch (err) {
+      console.log('error!', err);
+      setLoading(false);
+      toast.error('Signin Failed - Something went wrong!');
+    }
   };
 
   return (
     <Row>
       <Col span={8} offset={8}>
-        <h1 style={{ paddingTop: "100px" }}>Signin</h1>
+        <h1 style={{ paddingTop: '100px' }}>Signin</h1>
         <Form
           name="normal_login"
           className="login-form"
           initialValues={{ remember: true }}
           onFinish={onFinish}
         >
-          <Form.Item name="email" rules={[{ type: "email" }]}>
+          <Form.Item name="email" rules={[{ type: 'email' }]}>
             <Input
               prefix={<MailOutlined className="site-form-item-icon" />}
               placeholder="Email"
@@ -25,7 +55,7 @@ function Signin() {
           </Form.Item>
           <Form.Item
             name="password"
-            rules={[{ required: true, message: "Please input your Password!" }]}
+            rules={[{ required: true, message: 'Please input your Password!' }]}
           >
             <Input.Password
               prefix={<LockOutlined className="site-form-item-icon" />}
@@ -47,7 +77,7 @@ function Signin() {
               Login
             </Button>
             <br />
-            Or{" "}
+            Or{' '}
             <Link href="/signup">
               <a>Register now!</a>
             </Link>

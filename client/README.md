@@ -27,6 +27,7 @@ docker run -d -p 3000:3000 cms-client:latest
 ## Technologies & Frameworks
 
 - [Ant](https://ant.design)
+- [Axios]()
 - [Cypress.io](https://docs.cypress.io/)
 - [Docker](https://www.docker.com/)
 - [ESLint](https://eslint.org/)
@@ -34,3 +35,4 @@ docker run -d -p 3000:3000 cms-client:latest
 - [Next.js](https://nextjs.org)
 - [Prettier](https://prettier.io/)
 - [React.js](https://reactjs.org/)
+- [React-Hot-Toast]()
