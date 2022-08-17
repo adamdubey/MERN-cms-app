@@ -17,9 +17,11 @@ const { SubMenu } = Menu;
 const { Sider } = Layout;
 
 const AdminNav = () => {
+  // state
   const [collapsed, setCollapsed] = useState(false);
   const [current, setCurrent] = useState('');
-
+  
+  // hooks
   const onlyWidth = useWindowWidth();
 
   useEffect(() => {
