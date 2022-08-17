@@ -12,6 +12,7 @@ $ make down
 
 ## Technologies & Frameworks
 
+- [Act](https://github.com/nektos/act)
 - [Ant](https://ant.design)
 - [Cypress.io](https://docs.cypress.io/)
 - [Docker](https://www.docker.com/)
