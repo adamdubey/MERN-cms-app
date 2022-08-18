@@ -1,11 +1,11 @@
 import { useState, useContext } from 'react';
 import { Form, Input, Button, Col, Row } from 'antd';
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
-import { AuthContext } from '../context/auth';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
 import axios from 'axios';
-import toast from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
+import { AuthContext } from '../context/auth';
+import { useRouter } from 'next/router';
 
 function Signin() {
   // context
@@ -16,24 +16,32 @@ function Signin() {
 
   // hooks
   const router = useRouter();
+  const [form] = Form.useForm();
 
   const onFinish = async (values) => {
     try {
       setLoading(true);
       const { data } = await axios.post('/signin', values);
-      // save context
-      setAuth(data);
+      if (data?.error) {
+        toast.error(data.error);
+        setLoading(false);
+      } else {
+        // save context
+        setAuth(data);
 
-      // save localStorage
-      localStorage.setItem('auth', JSON.stringify(data));
-      toast.success('Successfully signed in!');
+        // save localStorage
+        localStorage.setItem('auth', JSON.stringify(data));
+        toast.success('Successfully signed in');
 
-      // redirect user
-      router.push('/');
+        // redirect user
+        router.push('/');
+
+        form.resetFields();
+      }
     } catch (err) {
-      console.log('error!', err);
+      console.log('err => ', err);
       setLoading(false);
-      toast.error('Signin Failed - Something went wrong!');
+      toast.error('Signin failed. Try again.');
     }
   };
 
@@ -41,10 +49,11 @@ function Signin() {
     <Row>
       <Col span={8} offset={8}>
         <h1 style={{ paddingTop: '100px' }}>Signin</h1>
+
         <Form
+          form={form}
           name="normal_login"
           className="login-form"
-          initialValues={{ remember: true }}
           onFinish={onFinish}
         >
           <Form.Item name="email" rules={[{ type: 'email' }]}>
@@ -53,6 +62,7 @@ function Signin() {
               placeholder="Email"
             />
           </Form.Item>
+
           <Form.Item
             name="password"
             rules={[{ required: true, message: 'Please input your Password!' }]}
@@ -63,11 +73,13 @@ function Signin() {
               placeholder="Password"
             />
           </Form.Item>
+
           <Link href="/forgot-password">
             <a>Forgot Password</a>
           </Link>
           <br />
           <br />
+
           <Form.Item>
             <Button
               type="primary"
