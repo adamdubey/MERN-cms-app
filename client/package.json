@@ -10,9 +10,8 @@
     "lint": "next lint",
     "ghtest": "echo 'Github Workflow Test is successful!'",
     "cypress": "cypress open",
-    "cypress:headless": "cypress run",
-    "e2e": "start-server-and-test start http://localhost:3000 cypress",
-    "e2e:headless": "start-server-and-test start http://localhost:3000 cypress:headless",
+    "cypress:ci": "cypress run",
+    "cypress:smoke-test": "cypress run --spec cypress/e2e/homePage.cy.js",
     "prettier:check": "prettier --check '**/*.{js,jsx,json}'",
     "prettier:write": "prettier --write '**/*.{js,jsx,json}'"
   },
