@@ -6,11 +6,11 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  build-server:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./client
+        working-directory: ./server
 
     steps:
       - uses: actions/checkout@v2
