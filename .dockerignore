@@ -1,0 +1,12 @@
+.dockerignore
+.next
+.git
+.DS_Store
+
+dockervolume
+db-data
+videos
+Dockerfile
+node_modules
+npm-debug.log
+README.md
