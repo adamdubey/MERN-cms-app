@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
-    "start": "node index.js",
+    "start": "nodemon -r esm index.js",
     "test": "NODE_ENV=test jest --forceExit",
     "ghtest": "echo 'Github Workflow Test is successful!'"
   },
@@ -19,14 +19,15 @@
     "dotenv": "^10.0.0",
     "esm": "^3.2.25",
     "express": "^4.17.1",
-    "express-jwt": "^6.1.0",
+    "express-jwt": "^6.1.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.12",
     "morgan": "^1.10.0",
     "nanoid": "^2.1.11",
     "navigator": "^1.0.1",
     "nodemon": "^2.0.15",
-    "shortid": "^2.2.16"
+    "shortid": "^2.2.16",
+    "slugify": "^1.6.5"
   },
   "devDependencies": {
     "jest": "^28.1.3",

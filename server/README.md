@@ -25,11 +25,13 @@ docker run -d -p 8000:8000 cms-server:latest
 - [Bcrypt]()
 - [Cors]()
 - [Docker](https://www.docker.com/)
+- [esm]()
 - [Express.js](https://nextjs.org)
 - [Jest]
 - [JWT]()
 - [Mongo DB]()
 - [Node.js]()
 - [Nodemon]()
+- [Slugify]()
 - [SendGrid]()
 - [Supertest]()
