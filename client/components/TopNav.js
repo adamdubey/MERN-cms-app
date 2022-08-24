@@ -40,14 +40,14 @@ const TopNav = () => {
   };
 
   const roleBasedLink = () => {
-    if(auth?.user?.role === "Admin") {
+    if (auth?.user?.role === 'Admin') {
       return '/admin';
-    } else if(auth?.user?.role === "Author") {
+    } else if (auth?.user?.role === 'Author') {
       return '/author';
     } else {
       return '/subscriber';
     }
-  }
+  };
 
   return (
     <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
@@ -79,7 +79,7 @@ const TopNav = () => {
           <SubMenu
             key="SubMenu"
             icon={<SettingOutlined />}
-            title={auth?.user?.name || "Dashboard"}
+            title={auth?.user?.name || 'Dashboard'}
             style={{ marginLeft: 'auto' }}
           >
             <Menu.ItemGroup title="Management">

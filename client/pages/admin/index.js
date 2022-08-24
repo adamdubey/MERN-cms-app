@@ -8,7 +8,7 @@ function Admin() {
     <AdminLayout>
       <h1>Admin Page</h1>
     </AdminLayout>
-    );
+  );
 }
 
 export default Admin;

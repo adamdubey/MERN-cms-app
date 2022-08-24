@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { Form, Input, Button, Col, Row } from 'antd';
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
 import Link from 'next/link';
@@ -18,6 +18,12 @@ function Signin() {
   const router = useRouter();
   const [form] = Form.useForm();
 
+  useEffect(() => {
+    if (auth?.token) {
+      router.push('/');
+    }
+  }, [auth]);
+
   const onFinish = async (values) => {
     try {
       setLoading(true);
@@ -34,9 +40,9 @@ function Signin() {
         toast.success('Successfully signed in');
 
         // redirect user
-        if(data?.user?.role === "Admin") {
+        if (data?.user?.role === 'Admin') {
           router.push('/admin');
-        } else if(data?.user?.role === "Author") {
+        } else if (data?.user?.role === 'Author') {
           router.push('/author');
         } else {
           router.push('/subscriber');

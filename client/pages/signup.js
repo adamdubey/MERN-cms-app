@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { Form, Input, Button, Col, Row } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 import Link from 'next/link';
@@ -16,6 +16,12 @@ function Signup() {
 
   // state
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (auth?.token) {
+      router.push('/');
+    }
+  }, [auth]);
 
   const onFinish = async (values) => {
     setLoading(true);

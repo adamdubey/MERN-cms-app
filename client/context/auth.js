@@ -8,10 +8,10 @@ const AuthProvider = ({ children }) => {
 
   if (process.browser) {
     axios.defaults.baseURL = process.env.DEV_API_SERVER;
-    axios.defaults.headers.common["Authorization"] = `Bearer ${auth?.token}`;
+    axios.defaults.headers.common['Authorization'] = `Bearer ${auth?.token}`;
   } else {
     axios.defaults.baseURL = process.env.NEXT_PUBLIC_API;
-    axios.defaults.headers.common["Authorization"] = `Bearer ${auth?.token}`;
+    axios.defaults.headers.common['Authorization'] = `Bearer ${auth?.token}`;
   }
 
   useEffect(() => {
