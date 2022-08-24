@@ -2,12 +2,16 @@ const express = require("express");
 
 const router = express.Router();
 
+// middleware
+import { requireSignin, isAdmin } from "../middlewares";
+
 // controllers
 const {
   signup,
   signin,
   forgotPassword,
   resetPassword,
+  currentUser
 } = require("../controllers/auth");
 
 router.get("/", (req, res) => {
@@ -15,9 +19,12 @@ router.get("/", (req, res) => {
     data: "Hello world from Auth-API",
   });
 });
+
 router.post("/signup", signup);
 router.post("/signin", signin);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password", resetPassword);
+
+router.get("/current-admin", requireSignin, isAdmin, currentUser);
 
 module.exports = router;
