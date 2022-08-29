@@ -3,7 +3,17 @@
     text-decoration: underline;
 }
 
+.editor-scroll ::-webkit-scrollbar {
+    display: none;
+}
+
+.editor-scroll {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
 .ProseMirror {
-    height: 200px;
+    height: 300px;
     padding: 15px 25px;
+    overflow: scroll;
 }
