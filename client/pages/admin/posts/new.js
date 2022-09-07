@@ -38,6 +38,7 @@ function NewPost() {
   const [categories, setCategories] = useState([]);
   const [loadedCategories, setLoadedCategories] = useState([]);
   const [visible, setVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // hook
   const router = useRouter();
@@ -56,6 +57,7 @@ function NewPost() {
   };
 
   const handlePublish = async () => {
+    setLoading(true);
     try {
       const { data } = await axios.post('/create-post', {
         title,
@@ -65,6 +67,7 @@ function NewPost() {
 
       if (data?.error) {
         toast.error(data?.error);
+        setLoading(false);
       } else {
         toast.success('Post created successfully!');
         localStorage.removeItem('post-title');
@@ -77,6 +80,7 @@ function NewPost() {
     } catch (err) {
       console.log(err);
       toast.error('Post create failed. Please try again');
+      setLoading(false);
     }
   };
 
@@ -133,6 +137,7 @@ function NewPost() {
             ))}
           </Select>
           <Button
+            loading={loading}
             style={{ margin: '10px 0px 10px 0px', width: '100%' }}
             type="primary"
             onClick={handlePublish}
