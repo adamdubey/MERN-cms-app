@@ -4,6 +4,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const authRoutes = require("./routes/auth");
 const categoryRoutes = require("./routes/category");
+const postRoutes = require("./routes/post");
 
 const morgan = require("morgan");
 
@@ -24,6 +25,7 @@ app.use(morgan("dev"));
 // route middlewares
 app.use("/api", authRoutes);
 app.use("/api", categoryRoutes);
+app.use("/api", postRoutes);
 
 const PORT = process.env.PORT || 8000;
 

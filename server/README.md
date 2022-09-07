@@ -23,6 +23,7 @@ docker run -d -p 8000:8000 cms-server:latest
 ## Technologies & Frameworks
 
 - [Bcrypt]()
+- [Cloudinary]()
 - [Cors]()
 - [Docker](https://www.docker.com/)
 - [esm]()
