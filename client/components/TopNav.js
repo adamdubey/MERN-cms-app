@@ -39,6 +39,16 @@ const TopNav = () => {
     router.push('/signin');
   };
 
+  const roleBasedLink = () => {
+    if (auth?.user?.role === 'Admin') {
+      return '/admin';
+    } else if (auth?.user?.role === 'Author') {
+      return '/author';
+    } else {
+      return '/subscriber';
+    }
+  };
+
   return (
     <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
       <Menu.Item key="mail" icon={<MailOutlined />}>
@@ -69,13 +79,13 @@ const TopNav = () => {
           <SubMenu
             key="SubMenu"
             icon={<SettingOutlined />}
-            title="Dashboard"
+            title={auth?.user?.name || 'Dashboard'}
             style={{ marginLeft: 'auto' }}
           >
             <Menu.ItemGroup title="Management">
               <Menu.Item key="setting:2">
-                <Link href="/admin">
-                  <a>Admin</a>
+                <Link href={roleBasedLink()}>
+                  <a>Dashboard</a>
                 </Link>
               </Menu.Item>
             </Menu.ItemGroup>
