@@ -1,5 +1,4 @@
 const express = require("express");
-
 const router = express.Router();
 
 // middleware
@@ -11,12 +10,12 @@ const {
   signin,
   forgotPassword,
   resetPassword,
-  currentUser
+  currentUser,
 } = require("../controllers/auth");
 
 router.get("/", (req, res) => {
   return res.json({
-    data: "Hello world from Auth-API",
+    data: "hello world from auth API",
   });
 });
 
@@ -24,7 +23,6 @@ router.post("/signup", signup);
 router.post("/signin", signin);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password", resetPassword);
-
 router.get("/current-admin", requireSignin, isAdmin, currentUser);
 
 module.exports = router;
