@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { PostContext } from '../../../context/post';
+import { useEffect, useState, useContext } from 'react';
 import { Button, Col, List, Row } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import AdminLayout from '../../../components/layout/AdminLayout';
@@ -6,8 +7,10 @@ import Link from 'next/link';
 import axios from 'axios';
 
 function Post() {
-  // state
-  const [posts, setPosts] = useState([]);
+  // context
+  const [posts, setPosts] = useContext(PostContext);
+
+  const { posts } = post;
 
   useEffect(() => {
     fetchPosts();
@@ -16,7 +19,7 @@ function Post() {
   const fetchPosts = async () => {
     try {
       const { data } = await axios.get('/posts');
-      setPosts(data);
+      setPost((prev) => ({ ...prev, posts: data }));
     } catch (err) {
       console.log(err);
     }
