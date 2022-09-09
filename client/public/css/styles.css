@@ -12,6 +12,10 @@
     scrollbar-width: none;
 }
 
+.ant-upload-list-item-card-actions {
+    display: none;
+}
+
 .ProseMirror {
     height: 300px;
     padding: 15px 25px;

@@ -7,6 +7,8 @@ import axios from 'axios';
 import { uploadImage } from '../../../functions/upload';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/router';
+import { UploadOutlined } from '@ant-design/icons';
+import Media from '../../../components/media';
 
 const { Option } = Select;
 const { Content, Sider } = Layout;
@@ -39,6 +41,7 @@ function NewPost() {
   const [loadedCategories, setLoadedCategories] = useState([]);
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [visibleMediaModal, setVisibleMediaModal] = useState(false);
 
   // hook
   const router = useRouter();
@@ -124,6 +127,12 @@ function NewPost() {
           >
             Preview
           </Button>
+          <Button
+            style={{ margin: '10px 0px 10px 0px', width: '100%' }}
+            onClick={() => setVisibleMediaModal(true)}
+          >
+            <UploadOutlined /> Featured Image
+          </Button>
           <h4>Categories</h4>
           <Select
             mode="multiple"
@@ -160,6 +169,16 @@ function NewPost() {
             dark={theme === 'light' ? false : true}
             readOnly={true}
           />
+        </Modal>
+        <Modal
+          visible={visibleMediaModal}
+          title="Media"
+          onOk={() => setVisibleMediaModal(false)}
+          onCancel={() => setVisibleMediaModal(false)}
+          width={720}
+          footer={null}
+        >
+          <Media />
         </Modal>
       </Row>
     </AdminLayout>
