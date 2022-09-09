@@ -1,5 +1,6 @@
 import Category from '../models/category';
 import Post from '../models/post';
+import Media from '../models/media';
 import cloudinary from 'cloudinary';
 import slugify from 'slugify';
 
@@ -65,6 +66,21 @@ export const posts = async (req, res) => {
 
         res.json(all);
     } catch (err) {
+        console.log(err);
+    }
+}
+
+export const uploadImageFile = async (req, res) => {
+    try {
+        const result = await cloudinary.uploader.upload(req.files.file.path);
+        const media = await new Media({
+            url: result.secure_url,
+            public_id: result.public_id,
+            postedBy: req.user._id,
+        }).save();
+
+        res.json(media);
+    } catch (error) {
         console.log(err);
     }
 }

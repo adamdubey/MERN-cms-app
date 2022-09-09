@@ -28,6 +28,7 @@ docker run -d -p 8000:8000 cms-server:latest
 - [Docker](https://www.docker.com/)
 - [esm]()
 - [Express.js](https://nextjs.org)
+- [express-formidable]()
 - [Jest]
 - [JWT]()
 - [Mongo DB]()
