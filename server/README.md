@@ -3,15 +3,17 @@
 ## Quick Start
 
 _via Localhost (development):_
+
 ```sh
 # install dependencies
 npm install
 
-# run server-app 
+# run server-app
 npm run start
 ```
 
 _via Docker:_
+
 ```sh
 # build container image
 docker build -t cms-server .

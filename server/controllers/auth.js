@@ -1,8 +1,8 @@
-const User = require("../models/user");
-const jwt = require("jsonwebtoken");
-const { hashPassword, comparePassword } = require("../helpers/auth");
-const nanoid = require("nanoid");
-const sgMail = require("@sendgrid/mail");
+const User = require('../models/user');
+const jwt = require('jsonwebtoken');
+const { hashPassword, comparePassword } = require('../helpers/auth');
+const nanoid = require('nanoid');
+const sgMail = require('@sendgrid/mail');
 
 sgMail.setApiKey(process.env.SENDGRID_KEY);
 
@@ -11,24 +11,24 @@ exports.signup = async (req, res) => {
     const { name, email, password } = req.body;
     if (!name) {
       return res.json({
-        error: "Name is required",
+        error: 'Name is required'
       });
     }
     if (!email) {
       return res.json({
-        error: "Email is required",
+        error: 'Email is required'
       });
     }
     if (!password || password.length < 6) {
       return res.json({
-        error: "Password is required and should be 6 characters long",
+        error: 'Password is required and should be 6 characters long'
       });
     }
 
     const exist = await User.findOne({ email });
     if (exist) {
       return res.json({
-        error: "Email is taken",
+        error: 'Email is taken'
       });
     }
 
@@ -38,18 +38,18 @@ exports.signup = async (req, res) => {
       const user = await new User({
         name,
         email,
-        password: hashedPassword,
+        password: hashedPassword
       }).save();
 
       // create signed token
       const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: "7d",
+        expiresIn: '7d'
       });
 
       const { password, ...rest } = user._doc;
       return res.json({
         token,
-        user: rest,
+        user: rest
       });
     } catch (err) {
       console.log(err);
@@ -65,39 +65,39 @@ exports.signin = async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) {
       return res.json({
-        error: "No user found",
+        error: 'No user found'
       });
     }
     // check password
     const match = await comparePassword(password, user.password);
     if (!match) {
       return res.json({
-        error: "Wrong password",
+        error: 'Wrong password'
       });
     }
     // create signed token
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
+      expiresIn: '7d'
     });
 
     user.password = undefined;
     user.secret = undefined;
     res.json({
       token,
-      user,
+      user
     });
   } catch (err) {
     console.log(err);
-    return res.status(400).send("Error. Try again.");
+    return res.status(400).send('Error. Try again.');
   }
 };
 
 exports.forgotPassword = async (req, res) => {
   const { email } = req.body;
   const user = await User.findOne({ email });
-  console.log("USER ===> ", user);
+  console.log('USER ===> ', user);
   if (!user) {
-    return res.json({ error: "User not found" });
+    return res.json({ error: 'User not found' });
   }
   const resetCode = nanoid(5).toUpperCase();
   user.resetCode = resetCode;
@@ -106,8 +106,8 @@ exports.forgotPassword = async (req, res) => {
   const emailData = {
     from: process.env.EMAIL_FROM,
     to: user.email,
-    subject: "Password reset code",
-    html: `<h1>Your password  reset code is: ${resetCode}</h1>`,
+    subject: 'Password reset code',
+    html: `<h1>Your password  reset code is: ${resetCode}</h1>`
   };
   // send email
   try {
@@ -126,18 +126,18 @@ exports.resetPassword = async (req, res) => {
     const user = await User.findOne({ email, resetCode });
     // if user not found
     if (!user) {
-      return res.json({ error: "Email or reset code is invalid" });
+      return res.json({ error: 'Email or reset code is invalid' });
     }
     // if password is short
     if (!password || password.length < 6) {
       return res.json({
-        error: "Password is required and should be 6 characters long",
+        error: 'Password is required and should be 6 characters long'
       });
     }
     // hash password
     const hashedPassword = await hashPassword(password);
     user.password = hashedPassword;
-    user.resetCode = "";
+    user.resetCode = '';
     user.save();
     return res.json({ ok: true });
   } catch (err) {
