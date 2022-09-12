@@ -1,7 +1,45 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { message, Upload } from 'antd';
+import { InboxOutlined } from '@ant-design/icons';
+import { AuthContext } from '../../context/auth';
+
+const { Dragger } = Upload;
 
 const MediaLibrary = () => {
-  return <div>MediaLibrary</div>;
+  // context
+  const [auth, setAuth] = useContext(AuthContext);
+
+  const props = {
+    name: 'file',
+    multiple: true,
+    action: `${process.env.NEXT_PUBLIC_API}/upload-image-file`,
+    headers: {
+      Authorization: `Bearer ${auth.token}`
+    },
+    onChange(info) {
+      if (info.file.status !== 'uploading') {
+        console.log(info.file, info.fileList);
+      }
+
+      if (info.file.status === 'done') {
+        message.success(`${info.file.name} file uploaded successfully`);
+      } else if (info.file.status === 'error') {
+        message.error(`${info.file.name} file upload failed`);
+      }
+    },
+    onDrop(e) {
+      console.log('onDrop => ', e.dataTransfer.files);
+    }
+  };
+
+  return (
+    <Dragger {...props} accept="image/*">
+      <p className="ant-upload-drag-icon">
+        <InboxOutlined />
+      </p>
+      <p className="ant-uplooad-text">Click or Drag file(s) to upload</p>
+    </Dragger>
+  );
 };
 
 export default MediaLibrary;
