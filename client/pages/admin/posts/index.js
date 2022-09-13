@@ -8,7 +8,7 @@ import axios from 'axios';
 
 function Post() {
   // context
-  const [posts, setPosts] = useContext(PostContext);
+  const [post, setPost] = useContext(PostContext);
 
   const { posts } = post;
 
@@ -27,7 +27,23 @@ function Post() {
 
   const handleEdit = async (post) => {};
 
-  const handleDelete = async (post) => {};
+  const handleDelete = async (post) => {
+    try {
+      const answer = window.confirm('Are you sure you want to delete?');
+      if (!answer) return;
+
+      const { data } = await axios.delete(`/post/${post._id}`);
+
+      if (data.ok) {
+        setPost((prev) => ({
+          ...prev,
+          posts: prev.posts.filter((p) => p._id !== post._id)
+        }));
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <AdminLayout>
