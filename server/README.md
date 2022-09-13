@@ -27,6 +27,7 @@ docker run -d -p 8000:8000 cms-server:latest
 - [Bcrypt]()
 - [Cloudinary]()
 - [Cors]()
+- [DayJS]()
 - [Docker](https://www.docker.com/)
 - [esm]()
 - [Express.js](https://nextjs.org)

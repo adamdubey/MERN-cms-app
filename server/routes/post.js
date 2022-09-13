@@ -13,10 +13,13 @@ const {
   createPost,
   posts,
   media,
-  removeMedia
+  removeMedia,
+  singlePost,
+  removePost
 } = require('../controllers/post');
 
 // CRUD
+// images
 router.post('/upload-image', requireSignin, isAdmin, uploadImage);
 router.post(
   '/upload-image-file',
@@ -25,8 +28,14 @@ router.post(
   isAdmin,
   uploadImageFile
 );
+
+// posts
 router.post('/create-post', requireSignin, isAdmin, createPost);
 router.get('/posts', posts);
+router.get('/post/:slug', singlePost);
+router.delete('/post/:postId', requireSignin, isAdmin, removePost);
+
+// media
 router.get('/media', requireSignin, isAdmin, media);
 router.delete('/media/:id', requireSignin, isAdmin, removeMedia);
 
