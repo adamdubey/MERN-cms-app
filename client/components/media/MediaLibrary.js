@@ -1,13 +1,31 @@
-import React, { useContext } from 'react';
-import { message, Upload } from 'antd';
-import { InboxOutlined } from '@ant-design/icons';
+import React, { useEffect, useContext, useState } from 'react';
+import { message, Upload, Badge } from 'antd';
+import { CloseCircleOutlined, InboxOutlined } from '@ant-design/icons';
 import { AuthContext } from '../../context/auth';
+import { MediaContext } from '../../context/media';
+import axios from 'axios';
 
 const { Dragger } = Upload;
 
 const MediaLibrary = () => {
   // context
   const [auth, setAuth] = useContext(AuthContext);
+  const [media, setMedia] = useContext(MediaContext);
+
+  // state
+  const [showPreview, setShowPreview] = useState(false);
+
+  useEffect(() => {
+    const fetchMedia = async () => {
+      try {
+        const { data } = await axios.get('/media');
+        setMedia((prev) => ({ ...prev, images: data }));
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchMedia();
+  }, []);
 
   const props = {
     name: 'file',
@@ -23,6 +41,11 @@ const MediaLibrary = () => {
 
       if (info.file.status === 'done') {
         message.success(`${info.file.name} file uploaded successfully`);
+        setMedia({
+          images: [...media.images, info.file.response],
+          selected: info.file.response,
+          showMediaModal: false
+        });
       } else if (info.file.status === 'error') {
         message.error(`${info.file.name} file upload failed`);
       }
@@ -32,13 +55,54 @@ const MediaLibrary = () => {
     }
   };
 
+  const handleImageDelete = async (imageId) => {
+    try {
+      const { data } = await axios.delete(`/media/${imageId}`);
+      if (data.ok) {
+        setMedia({
+          ...media,
+          images: media.images.filter((image) => image._id !== imageId),
+          selected: null
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
-    <Dragger {...props} accept="image/*">
-      <p className="ant-upload-drag-icon">
-        <InboxOutlined />
-      </p>
-      <p className="ant-uplooad-text">Click or Drag file(s) to upload</p>
-    </Dragger>
+    <>
+      <Dragger {...props} accept="image/*">
+        <p className="ant-upload-drag-icon">
+          <InboxOutlined />
+        </p>
+        <p className="ant-uplooad-text">Click or Drag file(s) to upload</p>
+      </Dragger>
+      <div style={{ textAlign: 'center' }}>
+        {media?.images?.map((image) => (
+          <Badge>
+            <Image
+              onClick={() => setMedia({ ...media, selected: image })}
+              preview={showPreview}
+              src={image.url}
+              style={{
+                paddingTop: 5,
+                paddingRight: 10,
+                height: '100px',
+                width: '100px',
+                objectFit: 'cover',
+                cursor: 'pointer'
+              }}
+            />
+            <br />
+            <CloseCircleOutlined
+              onClick={() => handleImageDelete(image._id)}
+              style={{ marginTop: '5px', color: '#F5222D' }}
+            />
+          </Badge>
+        ))}
+      </div>
+    </>
   );
 };
 
