@@ -43,9 +43,8 @@ export const createPost = async (req, res) => {
     setTimeout(async () => {
       try {
         const post = await new Post({
-          title,
+          ...req.body,
           slug: slugify(title),
-          content,
           categories: ids,
           postedBy: req.user._id
         }).save();
@@ -84,6 +83,26 @@ export const uploadImageFile = async (req, res) => {
 
     res.json(media);
   } catch (error) {
+    console.log(err);
+  }
+};
+
+export const media = async (req, res) => {
+  try {
+    const media = await Media.find()
+      .populate('postedBy', '_id')
+      .sort({ createdAt: -1 });
+    res.json(media);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const removeMedia = async (req, res) => {
+  try {
+    const media = await Media.findByIdAndDelete(req.params.id);
+    res.json({ ok: true });
+  } catch (err) {
     console.log(err);
   }
 };

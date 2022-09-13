@@ -11,7 +11,9 @@ const {
   uploadImage,
   uploadImageFile,
   createPost,
-  posts
+  posts,
+  media,
+  removeMedia
 } = require('../controllers/post');
 
 // CRUD
@@ -25,5 +27,7 @@ router.post(
 );
 router.post('/create-post', requireSignin, isAdmin, createPost);
 router.get('/posts', posts);
+router.get('/media', requireSignin, isAdmin, media);
+router.delete('/media/:id', requireSignin, isAdmin, removeMedia);
 
 export default router;
