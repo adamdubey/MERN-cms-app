@@ -2,6 +2,7 @@ import { PostContext } from '../../../context/post';
 import { useEffect, useState, useContext } from 'react';
 import { Button, Col, List, Row } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+import { useRouter } from 'next/router';
 import AdminLayout from '../../../components/layout/AdminLayout';
 import Link from 'next/link';
 import axios from 'axios';
@@ -9,6 +10,9 @@ import axios from 'axios';
 function Post() {
   // context
   const [post, setPost] = useContext(PostContext);
+
+  // hooks
+  const router = useRouter();
 
   const { posts } = post;
 
@@ -25,7 +29,13 @@ function Post() {
     }
   };
 
-  const handleEdit = async (post) => {};
+  const handleEdit = async (post) => {
+    try {
+      return router.push(`/admin/posts/${post.slug}`);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const handleDelete = async (post) => {
     try {

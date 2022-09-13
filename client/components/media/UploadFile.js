@@ -3,11 +3,15 @@ import { Button, message, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { AuthContext } from '../../context/auth';
 import { MediaContext } from '../../context/media';
+import { useRouter } from 'next/router';
 
-const UploadFile = () => {
+const UploadFile = ({ redirectToLibrary = false }) => {
   // context
   const [auth, setAuth] = useContext(AuthContext);
   const [media, setMedia] = useContext(MediaContext);
+
+  // hooks
+  const router = useRouter();
 
   const props = {
     name: 'file',
@@ -27,6 +31,9 @@ const UploadFile = () => {
           selected: info.file.response,
           showMediaModal: false
         });
+        if (redirectToLibrary) {
+          router.push('/admin/media/library');
+        }
       } else if (info.file.status === 'error') {
         message.error(`${info.file.name} file upload failed`);
       }
