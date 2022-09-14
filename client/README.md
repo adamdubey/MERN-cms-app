@@ -31,6 +31,7 @@ docker run -d -p 3000:3000 cms-client:latest
 - [Cypress.io](https://docs.cypress.io/)
 - [Docker](https://www.docker.com/)
 - [ESLint](https://eslint.org/)
+- [Generate-Password]()
 - [Github Workflows](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions)
 - [Next.js](https://nextjs.org)
 - [Prettier](https://prettier.io/)
