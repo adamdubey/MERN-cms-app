@@ -19,3 +19,16 @@ export const isAdmin = async (req, res, next) => {
     console.log(err);
   }
 };
+
+export const isAuthor = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (user.role !== 'Author') {
+      return res.status(403).send({ error: 'Access denied!' });
+    } else {
+      next();
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
