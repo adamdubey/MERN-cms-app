@@ -10,7 +10,8 @@ const {
   signin,
   forgotPassword,
   resetPassword,
-  currentUser
+  currentUser,
+  createUser
 } = require('../controllers/auth');
 
 router.get('/', (req, res) => {
@@ -24,5 +25,6 @@ router.post('/signin', signin);
 router.post('/forgot-password', forgotPassword);
 router.post('/reset-password', resetPassword);
 router.get('/current-admin', requireSignin, isAdmin, currentUser);
+router.post('/create-user', requireSignin, isAdmin, createUser);
 
 module.exports = router;

@@ -28,6 +28,9 @@ const userSchema = new Schema(
       public_id: '',
       url: ''
     },
+    website: {
+      type: String
+    },
     resetCode: ''
   },
   { timestamps: true }
