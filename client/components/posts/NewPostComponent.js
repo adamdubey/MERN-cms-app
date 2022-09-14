@@ -13,7 +13,7 @@ import { MediaContext } from '../../context/media';
 const { Option } = Select;
 const { Content, Sider } = Layout;
 
-function NewPostComponent() {
+function NewPostComponent({ page = 'admin' }) {
   // load from localStorage
   const savedTitle = () => {
     if (process.browser) {
@@ -80,7 +80,7 @@ function NewPostComponent() {
         setContent('');
         setCategories([]);
         setMedia({ ...media, selected: null });
-        router.push('/admin/posts');
+        router.push(`/${page}/posts`);
       }
     } catch (err) {
       console.log(err);
