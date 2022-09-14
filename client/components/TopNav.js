@@ -1,5 +1,7 @@
 import { Menu } from 'antd';
 import {
+  AppstoreOutlined,
+  DatabaseOutlined,
   LogoutOutlined,
   MailOutlined,
   SettingOutlined,
@@ -51,11 +53,18 @@ const TopNav = () => {
 
   return (
     <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
-      <Menu.Item key="mail" icon={<MailOutlined />}>
+      <Menu.Item key="mail" icon={<AppstoreOutlined />}>
         <Link href="/">
           <a>MERN-CMS</a>
         </Link>
       </Menu.Item>
+
+      <Menu.Item key="posts" icon={<DatabaseOutlined />}>
+        <Link href="/posts">
+          <a>Posts</a>
+        </Link>
+      </Menu.Item>
+
       {auth?.user === null && (
         <>
           <Menu.Item

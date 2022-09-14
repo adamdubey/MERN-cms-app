@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const userSchema = new Schema(
@@ -6,31 +6,31 @@ const userSchema = new Schema(
     name: {
       type: String,
       trim: true,
-      required: true,
+      required: true
     },
     email: {
       type: String,
       trim: true,
       required: true,
-      unique: true,
+      unique: true
     },
     password: {
       type: String,
       required: true,
       min: 6,
-      max: 64,
+      max: 64
     },
     role: {
       type: String,
-      default: "Subscriber",
+      default: 'Subscriber'
     },
     image: {
-      public_id: "",
-      url: "",
+      public_id: '',
+      url: ''
     },
-    resetCode: "",
+    resetCode: ''
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model('User', userSchema);

@@ -1,9 +1,8 @@
-const express = require("express");
-
+const express = require('express');
 const router = express.Router();
 
 // middleware
-import { requireSignin, isAdmin } from "../middlewares";
+import { requireSignin, isAdmin } from '../middlewares';
 
 // controllers
 const {
@@ -12,19 +11,18 @@ const {
   forgotPassword,
   resetPassword,
   currentUser
-} = require("../controllers/auth");
+} = require('../controllers/auth');
 
-router.get("/", (req, res) => {
+router.get('/', (req, res) => {
   return res.json({
-    data: "Hello world from Auth-API",
+    data: 'hello world from auth API'
   });
 });
 
-router.post("/signup", signup);
-router.post("/signin", signin);
-router.post("/forgot-password", forgotPassword);
-router.post("/reset-password", resetPassword);
-
-router.get("/current-admin", requireSignin, isAdmin, currentUser);
+router.post('/signup', signup);
+router.post('/signin', signin);
+router.post('/forgot-password', forgotPassword);
+router.post('/reset-password', resetPassword);
+router.get('/current-admin', requireSignin, isAdmin, currentUser);
 
 module.exports = router;
