@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import AdminLayout from '../../../components/layout/AdminLayout';
 import Link from 'next/link';
 import axios from 'axios';
+import PostsList from '../../../components/posts/PostsList';
 
 function Post() {
   // context
@@ -68,20 +69,11 @@ function Post() {
             </Link>
           </Button>
           <h1 style={{ marginTop: 15 }}>{posts?.length} Posts</h1>
-          <List
-            itemLayout="horizontal"
-            dataSource={posts}
-            renderItem={(item) => (
-              <List.Item
-                actions={[
-                  <a onClick={() => handleEdit(item)}>edit</a>,
-                  <a onClick={() => handleDelete(item)}>delete</a>
-                ]}
-              >
-                <List.Item.Meta title={item.title} />
-              </List.Item>
-            )}
-          ></List>
+          <PostsList
+            posts={posts}
+            handleEdit={handleEdit}
+            handleDelete={handleDelete}
+          />
         </Col>
       </Row>
     </AdminLayout>
