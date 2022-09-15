@@ -1,5 +1,6 @@
 import Category from '../models/category';
 import Post from '../models/post';
+import User from '../models/user';
 import Media from '../models/media';
 import cloudinary from 'cloudinary';
 import slugify from 'slugify';
@@ -48,6 +49,12 @@ export const createPost = async (req, res) => {
           categories: ids,
           postedBy: req.user._id
         }).save();
+
+        // push postId to user's posts array
+        await User.findByIdAndUpdate(req.user._id, {
+          // $addToSet skips dupes, $push will possibly add duplicate ids
+          $addToSet: { posts: post._id }
+        });
 
         return res.json(post);
       } catch (err) {

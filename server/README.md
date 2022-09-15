@@ -30,6 +30,7 @@ docker run -d -p 8000:8000 cms-server:latest
 - [DayJS]()
 - [Docker](https://www.docker.com/)
 - [esm]()
+- [email-validator]()
 - [Express.js](https://nextjs.org)
 - [express-formidable]()
 - [Jest]

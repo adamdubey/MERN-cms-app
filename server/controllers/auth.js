@@ -230,3 +230,77 @@ export const createUser = async (req, res) => {
     console.log(err);
   }
 };
+
+export const users = async (req, res) => {
+  try {
+    const allUsers = await User.find().select('-password -secret -resetCode');
+    res.json(allUsers);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const deleteUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    if (userId === req.user._id) return;
+
+    const user = await User.findByIdAndDelete(userId);
+    res.json(user);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const currrentUserProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId).populate('image');
+    res.json(user);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const updateUserByAdmin = async (req, res) => {
+  try {
+    const { id, name, email, password, website, role, image } = req.body;
+    const userFromDB = await User.findById(id);
+
+    // check for valid email address
+    if (!emailValidator.validate(email)) {
+      return res.json({ error: 'invalid email' });
+    }
+
+    // check if email is taken
+    const exist = await User.findOne({ email });
+
+    if (exist && exist._id.toString() !== userFromDB._id.toString()) {
+      return res.json({ error: 'email is already taken' });
+    }
+
+    // check password length
+    if (password && password.length < 8) {
+      return res.json({
+        error: 'password is required and should be 8 characters long'
+      });
+    }
+
+    const hashedPassword = password ? await hashPassword(password) : undefined;
+    const updated = await User.findByIdAndUpdate(
+      id,
+      {
+        name: name || userFromDB.name,
+        email: email || userFromDB.email,
+        password: hashedPassword || userFromDB.password,
+        website: website || userFromDB.website,
+        role: role || userFromDB.role,
+        image: image || userFromDB.image
+      },
+      { new: true }
+    ).populate('image');
+
+    res.json(updated);
+  } catch (err) {
+    console.log(err);
+  }
+};
