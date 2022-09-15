@@ -22,7 +22,8 @@ const {
   removeMedia,
   singlePost,
   removePost,
-  editPost
+  editPost,
+  postsByAuthor
 } = require('../controllers/post');
 
 // CRUD
@@ -40,6 +41,7 @@ router.post(
 router.post('/create-post', requireSignin, canCreateRead, createPost);
 router.get('/posts', posts);
 router.get('/post/:slug', singlePost);
+router.get('/posts-by-author', requireSignin, postsByAuthor);
 router.delete('/post/:postId', requireSignin, canUpdateDeletePost, removePost);
 router.put('/edit-post/:postId', requireSignin, canUpdateDeletePost, editPost);
 
