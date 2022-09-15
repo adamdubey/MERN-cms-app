@@ -65,33 +65,28 @@ const AuthorNav = () => {
               <a className={activeName('/author/posts/new')}>Add New</a>
             </Link>
           </Menu.Item>
-          <Menu.Item key="5">
-            <Link href="/author/categories">
-              <a className={activeName('/author/categories')}>Categories</a>
-            </Link>
-          </Menu.Item>
         </SubMenu>
 
-        <SubMenu key="6" icon={<CameraOutlined />} title="Media">
-          <Menu.Item key="7">
+        <SubMenu key="5" icon={<CameraOutlined />} title="Media">
+          <Menu.Item key="6">
             <Link href="/author/media/library">
               <a className={activeName('/author/media/library')}>Library</a>
             </Link>
           </Menu.Item>
-          <Menu.Item key="8">
+          <Menu.Item key="7">
             <Link href="/author/media/new">
               <a className={activeName('/author/media/new')}>Add New</a>
             </Link>
           </Menu.Item>
         </SubMenu>
 
-        <Menu.Item key="9" icon={<CommentOutlined />}>
+        <Menu.Item key="8" icon={<CommentOutlined />}>
           <Link href="/author/comments">
             <a className={activeName('/author/comments')}>Comments</a>
           </Link>
         </Menu.Item>
 
-        <Menu.Item key="10" icon={<UserOutlined />}>
+        <Menu.Item key="9" icon={<UserOutlined />}>
           <Link href="/author/userid">
             <a className={activeName('/author/userid')}>Profile</a>
           </Link>
