@@ -26,6 +26,7 @@ router.post('/forgot-password', forgotPassword);
 router.post('/reset-password', resetPassword);
 router.get('/current-admin', requireSignin, isAdmin, currentUser);
 router.get('/current-author', requireSignin, isAuthor, currentUser);
+router.get('/current-subscriber', requireSignin, currentUser);
 router.post('/create-user', requireSignin, isAdmin, createUser);
 
 module.exports = router;
