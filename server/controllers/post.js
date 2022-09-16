@@ -4,6 +4,7 @@ import User from '../models/user';
 import Media from '../models/media';
 import cloudinary from 'cloudinary';
 import slugify from 'slugify';
+import { response } from 'express';
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -66,13 +67,31 @@ export const createPost = async (req, res) => {
   }
 };
 
+// export const posts = async (req, res) => {
+//   try {
+//     const all = await Post.find()
+//       .populate('featuredImage')
+//       .populate('postedBy', 'name')
+//       .populate('categories', 'name slug')
+//       .sort({ createdAt: -1 });
+
+//     res.json(all);
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
+
 export const posts = async (req, res) => {
   try {
+    const limit = 6;
+    const page = req.params.page || 1;
     const all = await Post.find()
+      .skip((page - 1) * limit)
       .populate('featuredImage')
       .populate('postedBy', 'name')
       .populate('categories', 'name slug')
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .limit(limit);
 
     res.json(all);
   } catch (err) {
@@ -186,6 +205,24 @@ export const postsByAuthor = async (req, res) => {
       .populate('featuredImage', 'url')
       .sort({ createdAt: -1 });
 
+    res.json(posts);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const postCount = async (req, res) => {
+  try {
+    const count = await Post.countDocuments();
+    res.json(count);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const postsForAdmin = async (req, res) => {
+  try {
+    const posts = await Post.find().select('title slug');
     res.json(posts);
   } catch (err) {
     console.log(err);
