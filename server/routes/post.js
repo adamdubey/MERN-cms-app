@@ -25,7 +25,8 @@ const {
   editPost,
   postsByAuthor,
   postCount,
-  postsForAdmin
+  postsForAdmin,
+  createComment
 } = require('../controllers/post');
 
 // CRUD
@@ -52,5 +53,8 @@ router.get('/post-count', postCount);
 // media
 router.get('/media', requireSignin, canCreateRead, media);
 router.delete('/media/:id', requireSignin, canDeleteMedia, removeMedia);
+
+// comment
+router.post('/comment/:postId', requireSignin, createComment);
 
 export default router;

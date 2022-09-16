@@ -2,6 +2,7 @@ import Category from '../models/category';
 import Post from '../models/post';
 import User from '../models/user';
 import Media from '../models/media';
+import Comment from '../models/comment';
 import cloudinary from 'cloudinary';
 import slugify from 'slugify';
 import { response } from 'express';
@@ -224,6 +225,22 @@ export const postsForAdmin = async (req, res) => {
   try {
     const posts = await Post.find().select('title slug');
     res.json(posts);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const createComment = async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const { content } = req.body;
+    const comment = await new Comment({
+      content,
+      postedBy: req.user._id,
+      post: postId
+    }).save();
+
+    res.json(comment);
   } catch (err) {
     console.log(err);
   }
