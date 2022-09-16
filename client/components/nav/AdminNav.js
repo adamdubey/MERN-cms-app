@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Menu, Layout } from 'antd';
 import Link from 'next/link';
 import { useWindowWidth } from '@react-hook/window-size';
@@ -11,11 +11,15 @@ import {
   UserOutlined,
   CommentOutlined
 } from '@ant-design/icons';
+import { AuthContext } from '../../context/auth';
 
 const { SubMenu } = Menu;
 const { Sider } = Layout;
 
 const AdminNav = () => {
+  // context
+  const [auth, setAuth] = useContext(AuthContext);
+
   // state
   const [collapsed, setCollapsed] = useState(false);
   const [current, setCurrent] = useState('');
@@ -105,8 +109,8 @@ const AdminNav = () => {
         </SubMenu>
 
         <Menu.Item key="13" icon={<UserOutlined />}>
-          <Link href="/admin/userid">
-            <a className={activeName('/admin/userid')}>Profile</a>
+          <Link href={`/admin/${auth?.user?._id}`}>
+            <a className={activeName(`/admin/${auth?.user?._id}`)}>Profile</a>
           </Link>
         </Menu.Item>
 
