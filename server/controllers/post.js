@@ -1,5 +1,6 @@
 import Category from '../models/category';
 import Post from '../models/post';
+import User from '../models/user';
 import Media from '../models/media';
 import cloudinary from 'cloudinary';
 import slugify from 'slugify';
@@ -48,6 +49,12 @@ export const createPost = async (req, res) => {
           categories: ids,
           postedBy: req.user._id
         }).save();
+
+        // push postId to user's posts array
+        await User.findByIdAndUpdate(req.user._id, {
+          // $addToSet skips dupes, $push will possibly add duplicate ids
+          $addToSet: { posts: post._id }
+        });
 
         return res.json(post);
       } catch (err) {
@@ -166,6 +173,20 @@ export const editPost = async (req, res) => {
 
       res.json(post);
     }, 1000);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const postsByAuthor = async (req, res) => {
+  try {
+    const posts = await Post.find({ postedBy: req.user._id })
+      .populate('postedBy', 'name')
+      .populate('categories', 'name slug')
+      .populate('featuredImage', 'url')
+      .sort({ createdAt: -1 });
+
+    res.json(posts);
   } catch (err) {
     console.log(err);
   }

@@ -8,7 +8,7 @@ import { toast } from 'react-hot-toast';
 
 const { Dragger } = Upload;
 
-const MediaLibrary = () => {
+const MediaLibrary = ({ page = 'admin' }) => {
   // context
   const [auth, setAuth] = useContext(AuthContext);
   const [media, setMedia] = useContext(MediaContext);
@@ -97,10 +97,19 @@ const MediaLibrary = () => {
               }}
             />
             <br />
-            <CloseCircleOutlined
-              onClick={() => handleImageDelete(image._id)}
-              style={{ marginTop: '5px', color: '#F5222D' }}
-            />
+            {page === 'author' && image?.postedBy?._id == auth?.user?._id ? (
+              <CloseCircleOutlined
+                onClick={() => handleImageDelete(image._id)}
+                style={{ marginTop: '5px', color: '#F5222D' }}
+              />
+            ) : page === 'admin' ? (
+              <CloseCircleOutlined
+                onClick={() => handleImageDelete(image._id)}
+                style={{ marginTop: '5px', color: '#F5222D' }}
+              />
+            ) : (
+              ''
+            )}
           </Badge>
         ))}
       </div>

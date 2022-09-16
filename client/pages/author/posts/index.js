@@ -3,7 +3,7 @@ import { useEffect, useState, useContext } from 'react';
 import { Button, Col, List, Row } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
-import AdminLayout from '../../../components/layout/AdminLayout';
+import AuthorLayout from '../../../components/layout/AuthorLayout';
 import Link from 'next/link';
 import axios from 'axios';
 import PostsList from '../../../components/posts/PostsList';
@@ -23,7 +23,7 @@ function Post() {
 
   const fetchPosts = async () => {
     try {
-      const { data } = await axios.get('/posts');
+      const { data } = await axios.get('/posts-by-author');
       setPost((prev) => ({ ...prev, posts: data }));
     } catch (err) {
       console.log(err);
@@ -32,7 +32,7 @@ function Post() {
 
   const handleEdit = async (post) => {
     try {
-      return router.push(`/admin/posts/${post.slug}`);
+      return router.push(`/author/posts/${post.slug}`);
     } catch (err) {
       console.log(err);
     }
@@ -57,11 +57,11 @@ function Post() {
   };
 
   return (
-    <AdminLayout>
+    <AuthorLayout>
       <Row>
         <Col span={24}>
           <Button type="primary">
-            <Link href="/admin/posts/new">
+            <Link href="/author/posts/new">
               <a>
                 <PlusOutlined />
                 Add New
@@ -76,7 +76,7 @@ function Post() {
           />
         </Col>
       </Row>
-    </AdminLayout>
+    </AuthorLayout>
   );
 }
 

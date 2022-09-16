@@ -152,3 +152,155 @@ export const currentUser = async (req, res) => {
     console.log(err);
   }
 };
+
+export const createUser = async (req, res) => {
+  try {
+    const { name, email, password, role, website, checked } = req.body;
+
+    if (!name) {
+      return res.json({
+        error: 'Name is required'
+      });
+    }
+
+    if (!email) {
+      return res.json({
+        error: 'Email Address is required'
+      });
+    }
+
+    if (!password || password.length < 8) {
+      return res.json({
+        error: 'Password is required and should be 8 characters long'
+      });
+    }
+
+    // check to see if user already exists in db
+    const exist = await User.findOne({ email });
+
+    if (exist) {
+      return res.json({
+        error: 'Email Address has already been registered to an existing user'
+      });
+    }
+
+    // hash pw
+    const hashedPassword = await hashPassword(password);
+
+    // send email with login details if checked
+    if (checked) {
+      const emailData = {
+        to: email,
+        from: process.env.EMAIL_FROM,
+        subject: 'New User Account Created',
+        html: `
+                <h1>Ahoy, ${name}! Welcome to MERN-CMS App!</h1>
+                <p>Your new account has been successfully created, please see below for your login details.</p>
+                <h3>Account Details:</h3>
+                <p style="color:red;">Email: ${email}</p>
+                <p style="color:red;">Password: ${password}</p>
+                <small>It is strongly advised to change your password after first-time login.</small>
+              `
+      };
+
+      try {
+        const data = await sgMail.send(emailData);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    // create user
+    try {
+      const user = await new User({
+        name,
+        email,
+        password: hashedPassword,
+        role,
+        checked,
+        website
+      }).save();
+
+      const { password, ...rest } = user._doc;
+      return res.json(rest);
+    } catch (err) {
+      console.log(err);
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const users = async (req, res) => {
+  try {
+    const allUsers = await User.find().select('-password -secret -resetCode');
+    res.json(allUsers);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const deleteUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    if (userId === req.user._id) return;
+
+    const user = await User.findByIdAndDelete(userId);
+    res.json(user);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const currrentUserProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId).populate('image');
+    res.json(user);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const updateUserByAdmin = async (req, res) => {
+  try {
+    const { id, name, email, password, website, role, image } = req.body;
+    const userFromDB = await User.findById(id);
+
+    // check for valid email address
+    if (!emailValidator.validate(email)) {
+      return res.json({ error: 'invalid email' });
+    }
+
+    // check if email is taken
+    const exist = await User.findOne({ email });
+
+    if (exist && exist._id.toString() !== userFromDB._id.toString()) {
+      return res.json({ error: 'email is already taken' });
+    }
+
+    // check password length
+    if (password && password.length < 8) {
+      return res.json({
+        error: 'password is required and should be 8 characters long'
+      });
+    }
+
+    const hashedPassword = password ? await hashPassword(password) : undefined;
+    const updated = await User.findByIdAndUpdate(
+      id,
+      {
+        name: name || userFromDB.name,
+        email: email || userFromDB.email,
+        password: hashedPassword || userFromDB.password,
+        website: website || userFromDB.website,
+        role: role || userFromDB.role,
+        image: image || userFromDB.image
+      },
+      { new: true }
+    ).populate('image');
+
+    res.json(updated);
+  } catch (err) {
+    console.log(err);
+  }
+};

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
+const { ObjectId } = Schema.Types;
 
 const userSchema = new Schema(
   {
@@ -25,10 +26,14 @@ const userSchema = new Schema(
       default: 'Subscriber'
     },
     image: {
-      public_id: '',
-      url: ''
+      type: ObjectId,
+      ref: 'Media'
     },
-    resetCode: ''
+    website: {
+      type: String
+    },
+    resetCode: '',
+    posts: [{ type: ObjectId, ref: 'Post' }]
   },
   { timestamps: true }
 );
