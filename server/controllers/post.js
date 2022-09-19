@@ -257,7 +257,7 @@ export const comments = async (req, res) => {
     const perPage = 6;
     const page = req.params.page || 1;
     const allComments = await Comment.find()
-      .skip(page - 1 * perPage)
+      .skip((page - 1) * perPage)
       .populate('postedBy', 'name')
       .populate('postId', 'title slug')
       .sort({ createdAt: -1 })
@@ -282,10 +282,10 @@ export const commentCount = async (req, res) => {
 export const updateComment = async (req, res) => {
   try {
     const { commentId } = req.params;
-    const { comment } = req.body;
+    const { content } = req.body;
     const updatedComment = await Comment.findByIdAndUpdate(
       commentId,
-      { content: comment },
+      { content },
       { new: true }
     );
 
