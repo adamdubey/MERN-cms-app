@@ -63,6 +63,7 @@ export const SinglePost = ({ post, postComments }) => {
                 </span>
               ))}
             </p>
+
             <Editor
               dark={theme === 'light' ? false : true}
               readOnly={true}
@@ -82,7 +83,7 @@ export const SinglePost = ({ post, postComments }) => {
               itemLayout="horizontal"
               dataSource={comments}
               renderItem={(item) => (
-                <List.Item key={item._id}>
+                <List.Item key={item._id} id={item._id}>
                   <List.Item.Meta
                     avatar={<Avatar>{item?.postedBy?.name?.charAt(0)}</Avatar>}
                     title={item?.postedBy?.name}
