@@ -9,7 +9,8 @@ import {
   isAdmin,
   canCreateRead,
   canUpdateDeletePost,
-  canDeleteMedia
+  canDeleteMedia,
+  canUpdateDeleteComment
 } from '../middlewares';
 
 // controllers
@@ -26,7 +27,12 @@ const {
   postsByAuthor,
   postCount,
   postsForAdmin,
-  createComment
+  createComment,
+  comments,
+  commentCount,
+  removeComment,
+  updateComment,
+  userComments
 } = require('../controllers/post');
 
 // CRUD
@@ -56,5 +62,20 @@ router.delete('/media/:id', requireSignin, canDeleteMedia, removeMedia);
 
 // comment
 router.post('/comment/:postId', requireSignin, createComment);
+router.get('/comments/:page', requireSignin, isAdmin, comments);
+router.get('/user-comments/', requireSignin, userComments);
+router.get('/comment-count', commentCount);
+router.delete(
+  '/comment/:commentId',
+  requireSignin,
+  canUpdateDeleteComment,
+  removeComment
+);
+router.put(
+  '/comment/:commentId',
+  requireSignin,
+  canUpdateDeleteComment,
+  updateComment
+);
 
 export default router;

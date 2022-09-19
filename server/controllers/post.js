@@ -251,3 +251,69 @@ export const createComment = async (req, res) => {
     console.log(err);
   }
 };
+
+export const comments = async (req, res) => {
+  try {
+    const perPage = 6;
+    const page = req.params.page || 1;
+    const allComments = await Comment.find()
+      .skip(page - 1 * perPage)
+      .populate('postedBy', 'name')
+      .populate('postId', 'title slug')
+      .sort({ createdAt: -1 })
+      .limit(perPage);
+
+    return res.json(allComments);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const commentCount = async (req, res) => {
+  try {
+    const count = await Comment.countDocuments();
+
+    res.json(count);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const updateComment = async (req, res) => {
+  try {
+    const { commentId } = req.params;
+    const { comment } = req.body;
+    const updatedComment = await Comment.findByIdAndUpdate(
+      commentId,
+      { content: comment },
+      { new: true }
+    );
+
+    res.json(updatedComment);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const removeComment = async (req, res) => {
+  try {
+    const comment = await Comment.findByIdAndDelete(req.params.commentId);
+
+    res.json({ ok: true });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const userComments = async (req, res) => {
+  try {
+    const comments = await Comment.find({ postedBy: req.user._id })
+      .populate('postedBy', 'name')
+      .populate('postId', 'title slug')
+      .sort({ createdAt: -1 });
+
+    return res.json(comments);
+  } catch (err) {
+    console.log(err);
+  }
+};
