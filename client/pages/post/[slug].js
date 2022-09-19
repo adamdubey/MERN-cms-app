@@ -9,6 +9,7 @@ import Editor from 'rich-markdown-editor';
 import { ThemeContext } from '../../context/theme';
 import CommentForm from '../../components/comments/CommentForm';
 import { List } from 'rc-field-form';
+import { ShareSocial } from 'react-share-social';
 
 const { Meta } = Card;
 const { Title } = Typography;
@@ -63,6 +64,18 @@ export const SinglePost = ({ post, postComments }) => {
                 </span>
               ))}
             </p>
+
+            <div style={{ marginTop: '-20px', marginBottom: '15px' }}>
+              <ShareSocial
+                url={process.browser && window.location.href}
+                socialTypes={['facebook', 'twitter', 'reddit', 'linkedin']}
+                style={{
+                  height: '100px',
+                  overflow: 'hidden',
+                  background: 'none'
+                }}
+              />
+            </div>
 
             <Editor
               dark={theme === 'light' ? false : true}
