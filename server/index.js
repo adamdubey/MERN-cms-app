@@ -4,8 +4,8 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/auth');
 
-import categoryRoutes from './routes/category';
-import postRoutes from './routes/post';
+const categoryRoutes = require('./routes/category');
+const postRoutes = require('./routes/post');
 
 const morgan = require('morgan');
 

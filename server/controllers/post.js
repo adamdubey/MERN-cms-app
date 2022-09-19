@@ -143,7 +143,11 @@ export const singlePost = async (req, res) => {
       .populate('categories', 'name slug')
       .populate('featuredImage', 'url');
 
-    res.json(post);
+    const comments = await Comment.find({ postId: post._id })
+      .populate('postedBy', 'name')
+      .sort({ createdAt: -1 });
+
+    res.json({ post, comments });
   } catch (err) {
     console.log(err);
   }
@@ -233,14 +237,16 @@ export const postsForAdmin = async (req, res) => {
 export const createComment = async (req, res) => {
   try {
     const { postId } = req.params;
-    const { content } = req.body;
-    const comment = await new Comment({
-      content,
+    const { comment } = req.body;
+
+    let newComment = await new Comment({
+      content: comment,
       postedBy: req.user._id,
-      post: postId
+      postId
     }).save();
 
-    res.json(comment);
+    newComment = await newComment.populate('postedBy', 'name');
+    res.json(newComment);
   } catch (err) {
     console.log(err);
   }
