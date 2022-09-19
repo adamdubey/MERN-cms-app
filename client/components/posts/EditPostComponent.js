@@ -38,14 +38,14 @@ function EditPost({ page = 'admin' }) {
   const loadPost = async () => {
     try {
       const { data } = await axios.get(`/post/${router.query.slug}`);
-      setTitle(data.title);
-      setContent(data.content);
-      setFeaturedImage(data.featuredImage);
+      setTitle(data.post.title);
+      setContent(data.post.content);
+      setFeaturedImage(data.post.featuredImage);
       setPostId(data._id);
 
       // push category names
       let arr = [];
-      data.categories.map((c) => arr.push(c.name));
+      data.post.categories.map((c) => arr.push(c.name));
       setCategories(arr);
 
       setLoading(false);
