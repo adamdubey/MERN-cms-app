@@ -1,4 +1,5 @@
 import Category from '../models/category';
+import Post from '../models/post';
 import slugify from 'slugify';
 
 export const create = async (req, res) => {
@@ -46,6 +47,20 @@ export const updateCategory = async (req, res) => {
     );
 
     res.json(category);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const postsByCategory = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const category = await Category.findOne({ slug });
+    const posts = await Post.find({ categories: category._id })
+      .populate('featuredImage postedBy')
+      .limit(15);
+
+    res.json({ post, category });
   } catch (err) {
     console.log(err);
   }
