@@ -36,6 +36,7 @@ docker run -d -p 3000:3000 cms-client:latest
 - [Next.js](https://nextjs.org)
 - [Prettier](https://prettier.io/)
 - [React.js](https://reactjs.org/)
+- [react-count-to]()
 - [react-share-social]()
 - [React Image File Resizer]()
 - [Rich-Markdown-Editor]()
