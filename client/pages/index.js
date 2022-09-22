@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Button, Row, Col } from 'antd';
+import { Button, Row, Col, Divider } from 'antd';
 import { AuthContext } from '../context/auth';
 import Head from 'next/head';
 import FullWidthImage from '../components/pages/FullWidthImage';
@@ -8,7 +8,9 @@ import RenderProgress from '../components/posts/RenderProgress';
 import useLatestPost from '../hooks/useLatestPost';
 import useCategory from '../hooks/useCategory';
 import Link from 'next/link';
-
+import ParallaxImage from '../components/pages/ParallaxImage';
+import { ThunderboltOutlined } from '@ant-design/icons';
+import Footer from '../components/pages/Footer';
 
 function Home() {
   // context
@@ -74,13 +76,52 @@ function Home() {
 
       <Row>
         <Col span={24}>
-          
-          <h2>Blog Posts</h2>
+          <ParallaxImage>
+            <h2
+              style={{
+                textAlign: 'center',
+                fontSize: '75px',
+                textShadow: '2px 2px 4px #000000',
+                color: '#FFF'
+              }}
+            >
+              Blog Posts
+            </h2>
+            <Divider>
+              <ThunderboltOutlined />
+            </Divider>
+            <div style={{ textAlign: 'center' }}>
+              {latestPosts.map((post) => (
+                <Link href={`/post/${post.slug}`} key={post._id}>
+                  <a>
+                    <h3>{post.title}</h3>
+                  </a>
+                </Link>
+              ))}
+            </div>
+          </ParallaxImage>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col
+          span={24}
+          style={{ textAlign: 'center', marginTop: 80, marginBottom: 80 }}
+        >
+          <Divider>Categories</Divider>
           <div style={{ textAlign: 'center' }}>
-            {latestPosts.map((post) => (<Link href={`/post/${post.slug}`}><a><h3>{post.title}</h3></a></Link>))}
+            {categories.map((c) => (
+              <Link href={`/category/${c.slug}`} key={c._id}>
+                <a>
+                  <Button style={{ margin: 2 }}>{c.name}</Button>
+                </a>
+              </Link>
+            ))}
           </div>
         </Col>
       </Row>
+
+      <Footer />
     </>
   );
 }
