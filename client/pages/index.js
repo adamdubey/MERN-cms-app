@@ -5,6 +5,10 @@ import Head from 'next/head';
 import FullWidthImage from '../components/pages/FullWidthImage';
 import useNumbers from '../hooks/useNumbers';
 import RenderProgress from '../components/posts/RenderProgress';
+import useLatestPost from '../hooks/useLatestPost';
+import useCategory from '../hooks/useCategory';
+import Link from 'next/link';
+
 
 function Home() {
   // context
@@ -12,6 +16,8 @@ function Home() {
 
   // hooks
   const { numbers } = useNumbers();
+  const { latestPosts } = useLatestPost();
+  const { categories } = useCategory();
 
   return (
     <>
@@ -63,6 +69,16 @@ function Home() {
             name="Users"
             link="/admin/users"
           />
+        </Col>
+      </Row>
+
+      <Row>
+        <Col span={24}>
+          
+          <h2>Blog Posts</h2>
+          <div style={{ textAlign: 'center' }}>
+            {latestPosts.map((post) => (<Link href={`/post/${post.slug}`}><a><h3>{post.title}</h3></a></Link>))}
+          </div>
         </Col>
       </Row>
     </>
