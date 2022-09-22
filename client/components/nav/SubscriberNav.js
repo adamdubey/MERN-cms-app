@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Menu, Layout } from 'antd';
 import Link from 'next/link';
 import { useWindowWidth } from '@react-hook/window-size';
@@ -11,11 +11,15 @@ import {
   UserOutlined,
   CommentOutlined
 } from '@ant-design/icons';
+import { AuthContext } from '../../context/auth';
 
 const { SubMenu } = Menu;
 const { Sider } = Layout;
 
 const SubscriberNav = () => {
+  // context
+  const [auth, setAuth] = useContext(AuthContext);
+
   // state
   const [collapsed, setCollapsed] = useState(false);
   const [current, setCurrent] = useState('');
@@ -61,8 +65,10 @@ const SubscriberNav = () => {
         </Menu.Item>
 
         <Menu.Item key="9" icon={<UserOutlined />}>
-          <Link href="/subscriber/profile">
-            <a className={activeName('/subscriber/profile')}>Profile</a>
+          <Link href={`/subscriber/${auth?.user?._id}`}>
+            <a className={activeName(`/subscriber/${auth?.user?._id}`)}>
+              Profile
+            </a>
           </Link>
         </Menu.Item>
       </Menu>

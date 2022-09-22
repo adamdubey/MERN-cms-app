@@ -1,11 +1,11 @@
-import SubscriberLayout from '../../components/layout/SubscriberLayout';
+import AuthorLayout from '../../components/layout/AuthorLayout';
 import UserComments from '../../components/comments/UserComments';
 
 function Comments() {
   return (
-    <SubscriberLayout>
+    <AuthorLayout>
       <UserComments />
-    </SubscriberLayout>
+    </AuthorLayout>
   );
 }
 

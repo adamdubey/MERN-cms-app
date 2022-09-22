@@ -3,6 +3,8 @@ import expressJwt from 'express-jwt';
 import User from '../models/user';
 import Post from '../models/post';
 import Media from '../models/media';
+import Comment from '../models/comment';
+import comment from '../models/comment';
 
 export const requireSignin = expressJwt({
   secret: process.env.JWT_SECRET,
@@ -96,6 +98,37 @@ export const canDeleteMedia = async (req, res, next) => {
         if (media.postedBy.toString() !== user._id.toString()) {
           return res.status(403).send('unauthorized');
         } else {
+          next();
+        }
+        break;
+
+      default:
+        return res.status(403).send('unauthorized');
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const canUpdateDeleteComment = async (req, res, next) => {
+  try {
+    const { commentId } = req.params;
+    const comment = await Comment.findById(commentId);
+    const user = await User.findById(req.user._id);
+
+    switch (user.role) {
+      case 'Admin':
+        next();
+        break;
+
+      case 'Author':
+        if (comment.postedBy.toString() === req.user._id.toString()) {
+          next();
+        }
+        break;
+
+      case 'Subscriber':
+        if (comment.postedBy.toString() === req.user._id.toString()) {
           next();
         }
         break;

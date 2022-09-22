@@ -304,3 +304,51 @@ export const updateUserByAdmin = async (req, res) => {
     console.log(err);
   }
 };
+
+export const updateUserByUser = async (req, res) => {
+  try {
+    const { id, name, email, password, website, image } = req.body;
+    const userFromDB = await User.findById(id);
+
+    // check if user is self
+    if (userFromDB._id.toString() !== req.user._id.toString()) {
+      return res.status(403).send('unauthorized');
+    }
+
+    // check for valid email address
+    if (!emailValidator.validate(email)) {
+      return res.json({ error: 'invalid email' });
+    }
+
+    // check if email is taken
+    const exist = await User.findOne({ email });
+
+    if (exist && exist._id.toString() !== userFromDB._id.toString()) {
+      return res.json({ error: 'email is already taken' });
+    }
+
+    // check password length
+    if (password && password.length < 8) {
+      return res.json({
+        error: 'password is required and should be 8 characters long'
+      });
+    }
+
+    const hashedPassword = password ? await hashPassword(password) : undefined;
+    const updated = await User.findByIdAndUpdate(
+      id,
+      {
+        name: name || userFromDB.name,
+        email: email || userFromDB.email,
+        password: hashedPassword || userFromDB.password,
+        website: website || userFromDB.website,
+        image: image || userFromDB.image
+      },
+      { new: true }
+    ).populate('image');
+
+    res.json(updated);
+  } catch (err) {
+    console.log(err);
+  }
+};

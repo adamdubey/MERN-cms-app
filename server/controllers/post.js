@@ -2,8 +2,10 @@ import Category from '../models/category';
 import Post from '../models/post';
 import User from '../models/user';
 import Media from '../models/media';
+import Comment from '../models/comment';
 import cloudinary from 'cloudinary';
 import slugify from 'slugify';
+import { response } from 'express';
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -66,13 +68,31 @@ export const createPost = async (req, res) => {
   }
 };
 
+// export const posts = async (req, res) => {
+//   try {
+//     const all = await Post.find()
+//       .populate('featuredImage')
+//       .populate('postedBy', 'name')
+//       .populate('categories', 'name slug')
+//       .sort({ createdAt: -1 });
+
+//     res.json(all);
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
+
 export const posts = async (req, res) => {
   try {
+    const limit = 6;
+    const page = req.params.page || 1;
     const all = await Post.find()
+      .skip((page - 1) * limit)
       .populate('featuredImage')
       .populate('postedBy', 'name')
       .populate('categories', 'name slug')
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .limit(limit);
 
     res.json(all);
   } catch (err) {
@@ -123,7 +143,11 @@ export const singlePost = async (req, res) => {
       .populate('categories', 'name slug')
       .populate('featuredImage', 'url');
 
-    res.json(post);
+    const comments = await Comment.find({ postId: post._id })
+      .populate('postedBy', 'name')
+      .sort({ createdAt: -1 });
+
+    res.json({ post, comments });
   } catch (err) {
     console.log(err);
   }
@@ -187,6 +211,108 @@ export const postsByAuthor = async (req, res) => {
       .sort({ createdAt: -1 });
 
     res.json(posts);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const postCount = async (req, res) => {
+  try {
+    const count = await Post.countDocuments();
+    res.json(count);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const postsForAdmin = async (req, res) => {
+  try {
+    const posts = await Post.find().select('title slug');
+    res.json(posts);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const createComment = async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const { comment } = req.body;
+
+    let newComment = await new Comment({
+      content: comment,
+      postedBy: req.user._id,
+      postId
+    }).save();
+
+    newComment = await newComment.populate('postedBy', 'name');
+    res.json(newComment);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const comments = async (req, res) => {
+  try {
+    const perPage = 6;
+    const page = req.params.page || 1;
+    const allComments = await Comment.find()
+      .skip((page - 1) * perPage)
+      .populate('postedBy', 'name')
+      .populate('postId', 'title slug')
+      .sort({ createdAt: -1 })
+      .limit(perPage);
+
+    return res.json(allComments);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const commentCount = async (req, res) => {
+  try {
+    const count = await Comment.countDocuments();
+
+    res.json(count);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const updateComment = async (req, res) => {
+  try {
+    const { commentId } = req.params;
+    const { content } = req.body;
+    const updatedComment = await Comment.findByIdAndUpdate(
+      commentId,
+      { content },
+      { new: true }
+    );
+
+    res.json(updatedComment);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const removeComment = async (req, res) => {
+  try {
+    const comment = await Comment.findByIdAndDelete(req.params.commentId);
+
+    res.json({ ok: true });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const userComments = async (req, res) => {
+  try {
+    const comments = await Comment.find({ postedBy: req.user._id })
+      .populate('postedBy', 'name')
+      .populate('postId', 'title slug')
+      .sort({ createdAt: -1 });
+
+    return res.json(comments);
   } catch (err) {
     console.log(err);
   }

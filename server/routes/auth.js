@@ -15,7 +15,8 @@ const {
   users,
   deleteUser,
   currentUserProfile,
-  updateUserByAdmin
+  updateUserByAdmin,
+  updateUserByUser
 } = require('../controllers/auth');
 
 router.get('/', (req, res) => {
@@ -35,6 +36,7 @@ router.post('/create-user', requireSignin, isAdmin, createUser);
 router.get('/users', requireSignin, isAdmin, users);
 router.get('/user/userId', requireSignin, currentUserProfile);
 router.put('/update-user-by-admin', requireSignin, isAdmin, updateUserByAdmin);
+router.put('/update-user-by-user', requireSignin, updateUserByUser);
 router.delete('/user/:userId', requireSignin, isAdmin, deleteUser);
 
 module.exports = router;
