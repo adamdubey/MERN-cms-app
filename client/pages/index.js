@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import { Button, Row, Col, Divider } from 'antd';
 import { AuthContext } from '../context/auth';
 import Head from 'next/head';
@@ -11,6 +11,8 @@ import Link from 'next/link';
 import ParallaxImage from '../components/pages/ParallaxImage';
 import { ThunderboltOutlined } from '@ant-design/icons';
 import Footer from '../components/pages/Footer';
+import axios from 'axios';
+import useHome from '../hooks/useHome';
 
 function Home() {
   // context
@@ -20,6 +22,14 @@ function Home() {
   const { numbers } = useNumbers();
   const { latestPosts } = useLatestPost();
   const { categories } = useCategory();
+  const {
+    title,
+    subtitle,
+    fullWidthImageset,
+    setTitle,
+    setSubtitle,
+    setFullWidthImage
+  } = useHome();
 
   return (
     <>
@@ -27,7 +37,11 @@ function Home() {
         <title>MERN CMS App</title>
         <meta name="description" content="blogging cms app" />
       </Head>
-      <FullWidthImage />
+      <FullWidthImage
+        title={title}
+        subtitle={subtitle}
+        fullWidthImage={fullWidthImage?.url}
+      />
       <Row style={{ marginTop: 40 }}>
         <Col
           span={6}

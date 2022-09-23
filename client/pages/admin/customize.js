@@ -5,27 +5,37 @@ import Media from '../../components/media';
 import { MediaContext } from '../../context/media';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import useHome from '../../hooks/useHome';
 
 const Customize = () => {
   // context
   const [media, setMedia] = useContext(MediaContext);
 
   // state
-  const [title, setTitle] = useState('');
-  const [subtitle, setSubtitle] = useState('');
   const [loading, setLoading] = useState(false);
-  const [fullWidthImage, setFullWidthImage] = useState('');
+
+  // hooks
+  const {
+    title,
+    subtitle,
+    fullWidthImageset,
+    setTitle,
+    setSubtitle,
+    setFullWidthImage
+  } = useHome();
 
   const handleSave = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.post('/homepage', {
+      const { data } = await axios.post('/page', {
+        page: 'home',
         title,
         subtitle,
         fullWidthImage: media?.selected?._id
       });
 
       setLoading(false);
+      toast.success('Saved!');
     } catch (err) {
       console.log(err);
       setLoading(false);

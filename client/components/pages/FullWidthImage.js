@@ -2,10 +2,14 @@ import { SendOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import Link from 'next/link';
 
-const FullWidthImage = () => (
+const FullWidthImage = ({
+  title = 'MERN CMS',
+  subtitle = 'Full Stack Content Management System',
+  fullWidthImage = '/images/default-full.jpeg'
+}) => (
   <>
     <img
-      src="/images/default-full.jpeg"
+      src={fullWidthImage}
       alt="MERN CMS App"
       style={{
         width: '100%',
@@ -23,10 +27,8 @@ const FullWidthImage = () => (
         textShadow: '2px 2px 4px #000000'
       }}
     >
-      <h1>MERN CMS</h1>
-      <p style={{ fontSize: '18px', marginTop: '-100px' }}>
-        Full Stack Content Management System
-      </p>
+      <h1>{title}</h1>
+      <p style={{ fontSize: '18px', marginTop: '-100px' }}>{subtitle}</p>
       <Link href={'/subscriber'}>
         <a>
           <Button type="primary" size="large" icon={<SendOutlined />}>
