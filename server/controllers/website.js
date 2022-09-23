@@ -52,7 +52,7 @@ export const createPage = async (req, res) => {
       return res.json(updated);
     } else {
       // create
-      const created = await Website.create(req.body).save();
+      const created = await new Website.create(req.body).save();
 
       return res.json(created);
     }

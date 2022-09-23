@@ -14,6 +14,6 @@ router.post('/contact', contact);
 
 // admin homepage customization
 router.post('/page', requireSignin, isAdmin, createPage);
-router.get('/page/:page', requireSignin, isAdmin, getPage);
+router.get('/page/:page', getPage);
 
 export default router;
