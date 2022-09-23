@@ -352,3 +352,11 @@ export const updateUserByUser = async (req, res) => {
     console.log(err);
   }
 };
+
+export const currentUserProfile = async (req, res) => {
+  try {
+    res.json({ ok: true });
+  } catch (err) {
+    console.log(err);
+  }
+};

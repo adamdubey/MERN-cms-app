@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Avatar, Card, Col, Row, Typography } from 'antd';
+import { Avatar, Button, Card, Col, Divider, Row, Typography } from 'antd';
 import axios from 'axios';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -10,6 +10,8 @@ import { ThemeContext } from '../../context/theme';
 import CommentForm from '../../components/comments/CommentForm';
 import { List } from 'rc-field-form';
 import { ShareSocial } from 'react-share-social';
+import useCategory from '../../hooks/useCategory';
+import useLatestPost from '../../hooks/useLatestPost';
 
 const { Meta } = Card;
 const { Title } = Typography;
@@ -24,6 +26,10 @@ export const SinglePost = ({ post, postComments }) => {
   const [comments, setComments] = useState(postComments);
   const [comment, setComment] = useState('');
   const [loading, setLoading] = useState(false);
+
+  // hooks
+  const { categories } = useCategory();
+  const { latestPosts } = useLatestPost();
 
   const handleSubmit = async () => {
     try {
@@ -111,7 +117,23 @@ export const SinglePost = ({ post, postComments }) => {
         </Col>
 
         <Col xs={22} xl={6} offset={1}>
-          sidebar
+          <Divider>Categories</Divider>
+          {categories.map((c) => (
+            <Link href={`/category/${c.slug}`} key={c._id}>
+              <a>
+                <Button style={{ margin: 2 }}>{c.name}</Button>
+              </a>
+            </Link>
+          ))}
+
+          <Divider>Latest Posts</Divider>
+          {latestPosts.map((p) => (
+            <Link href={`/post/${p.slug}`} key={p._id}>
+              <a>
+                <h4>{p.title}</h4>
+              </a>
+            </Link>
+          ))}
         </Col>
       </Row>
     </>

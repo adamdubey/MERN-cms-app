@@ -32,7 +32,8 @@ const {
   commentCount,
   removeComment,
   updateComment,
-  userComments
+  userComments,
+  getNumbers
 } = require('../controllers/post');
 
 // CRUD
@@ -77,5 +78,8 @@ router.put(
   canUpdateDeleteComment,
   updateComment
 );
+
+// numbers (statistics on dashboard)
+router.get('/numbers', requireSignin, getNumbers);
 
 export default router;
